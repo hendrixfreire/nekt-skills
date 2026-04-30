@@ -7,6 +7,10 @@ Skills do [Hermes Agent](https://github.com/hendrixfreire/hermes-agent) para o M
 | Skill | Descricao |
 |---|---|
 | `nekt-connection-test` | Testa a conexao com o MCP da Nekt |
+| `nekt-client-report` | Relatorio consolidado de performance por cliente (Gold) |
+| `nekt-schema-explorer` | Descobre e documenta a estrutura de tabelas nas 3 camadas |
+| `nekt-campaign-diagnostics` | Diagnostico de campanhas com performance atipica |
+| `nekt-data-freshness-check` | Valida atualizacao dos dados no data lake |
 
 ## Auto-Sync Pipeline
 
