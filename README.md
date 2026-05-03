@@ -40,11 +40,12 @@ graph LR
 
 | Etapa | O que acontece |
 |---|---|
-| **1. LOCAL** | Voce cria ou edita skills em `~/.hermes/skills/nekt/skills/<nome>/SKILL.md` |
+| **1. LOCAL** | Voce cria ou edita skills em `~/.hermes/skills/nekt/<nome>/SKILL.md` |
 | **2. CRON** | O job `nekt-skills-auto-sync` roda automaticamente a cada 2h |
 | **3. SCRIPT** | O script `nekt-skills-sync.py` detecta mudancas via `git status` |
-| **4. GIT** | Faz `git add -A`, `git commit`, `git push` |
-| **5. GITHUB** | O repositorio `hendrixfreire/nekt-skills` e atualizado |
+| **4. SYMLINK** | Skills sao acessiveis por symlinks em `~/.hermes/skills/<nome>/` → `nekt/<nome>/` |
+| **5. GIT** | Faz `git add -A`, `git commit`, `git push` |
+| **6. GITHUB** | O repositorio `hendrixfreire/nekt-skills` e atualizado |
 
 **Key Principle:** Edite skills localmente. O cron sobe pro GitHub.
 
@@ -56,18 +57,21 @@ Os logs do sync ficam em `~/.hermes/logs/nekt-skills-sync.log`.
 
 ## Como usar
 
-Clone este repositorio e copie as skills desejadas para `~/.hermes/skills/`:
+Clone este repositorio e crie symlinks na raiz de `~/.hermes/skills/`:
 
 ```bash
 git clone https://github.com/hendrixfreire/nekt-skills.git ~/.hermes/skills/nekt
-# ou individualmente:
-cp -r nekt-skills/skills/nekt-connection-test ~/.hermes/skills/
+# Criar symlinks para cada skill (necessario para o Hermes carregar):
+cd ~/.hermes/skills
+for skill in nekt-connection-test nekt-client-report nekt-schema-explorer nekt-campaign-diagnostics nekt-data-freshness-check; do
+  ln -sf nekt/$skill $skill
+done
 ```
 
 ## Desenvolvimento
 
 Para criar uma nova skill:
 
-1. Crie `skills/<nome>/SKILL.md` dentro do repositorio local (`~/.hermes/skills/nekt/`)
+1. Crie `<nome>/SKILL.md` dentro do repositorio local (`~/.hermes/skills/nekt/`)
 2. O cron job detecta e sobe automaticamente em ate 2h
 3. Para subir na hora: `cd ~/.hermes/skills/nekt && git add -A && git commit -m "sua mensagem" && git push`
